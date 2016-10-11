@@ -2,8 +2,9 @@ import { EventEmitter } from 'events'
 import AppDispatcher from '../AppDispatcher'
 
 let _searchData = ''
-let _favourites = []
-let _favouriteIDs = []
+let _favourites = ''
+let _favouriteIDs = ''
+let _details = ''
 
 class YelpStore extends EventEmitter {
   constructor(){
@@ -18,6 +19,12 @@ class YelpStore extends EventEmitter {
         this.emit('CHANGE')
         break
 
+        case 'DETAILS_RECEIVED':
+        _details = action.payload.data
+        console.log('_details: ', _details)
+        this.emit('CHANGE')
+        break
+
         case 'FAVOURITE_RECEIVED':
         _favouriteIDs=[]
         console.log('in YelpStore FAVOURITE_RECEIVED');
@@ -26,15 +33,12 @@ class YelpStore extends EventEmitter {
         for (var i = 0; i < _favourites.length; i++) {
           _favouriteIDs.push(_favourites[i].id)
         }
-        _favouriteIDs.sort()
-        for (var i = 0; i < _favouriteIDs.length; i++) {
-          console.log('_favouriteIDs[i+1]: ', _favouriteIDs[i+1])
-          while (_favouriteIDs[i] === _favouriteIDs[i + 1]){
-            _favouriteIDs.splice(i+1, 1)
-          }
-        }
         console.log('_favourites: ', _favourites)
         console.log('_favouriteIDs: ', _favouriteIDs)
+        if (_favouriteIDs.length === 0) {
+          _favourites = ""
+          _favouriteIDs = ""
+        }
         this.emit('CHANGE')
         break
       }
@@ -55,6 +59,14 @@ class YelpStore extends EventEmitter {
 
   getFavouriteIDs(){
     return _favouriteIDs
+  }
+
+  getFavourites(){
+    return _favourites
+  }
+
+  getDetails(){
+    return _details
   }
 
 }

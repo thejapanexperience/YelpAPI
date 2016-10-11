@@ -7,9 +7,24 @@ const ToAPIActions = {
     API.yelpSearch(whats, wheres)
   },
 
+  details(id){
+    console.log('In toAPIActions')
+    API.details(id)
+  },
+
   favourite(business){
     console.log('In toAPIActions')
     API.favourites(business)
+  },
+
+  unfavourite(business){
+    console.log('In toAPIActions')
+    API.unfavourite(business)
+  },
+
+  allFavourites(){
+    console.log('In toAPIActions')
+    API.allFavourites()
   },
 
 }

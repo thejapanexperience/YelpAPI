@@ -8,6 +8,13 @@ const ServerActions = {
     })
   },
 
+  receiveDetails(data){
+    AppDispatcher.dispatch({
+      type: 'DETAILS_RECEIVED',
+      payload: { data }
+    })
+  },
+
   favourites(data){
     console.log('in ServerActions');
     console.log('data: ', data)

@@ -41,10 +41,28 @@ app.post('/search', (req, res) => {
   var yelp = new Yelp({
       consumer_key: 'GWGv4SyWY5noNEPRtcvb5w',
       consumer_secret: '4mahGaK-aAGV6LVlva1IiAW2DtA',
-      token: 'nzElqK4xjo5lt_t2puxNnFKrklMILM-l',
-      token_secret: 'ZhhgTnz8xLLMA5SOyvs6N88THRk',
+      token: 'SmRy35alwQU-WLIXXdKW4bb_YnenAirA',
+      token_secret: 'cbLkNTBIuSCd-cgt1v9LE7I5OPU',
     });
     yelp.search(req.body)
+      .then(function (data) {
+        console.log('data: ', data)
+        res.send(data)
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
+})
+
+app.get('/detail/:id', (req, res) => {
+  console.log('req.params: ', req.params)
+  var yelp = new Yelp({
+    consumer_key: 'GWGv4SyWY5noNEPRtcvb5w',
+    consumer_secret: '4mahGaK-aAGV6LVlva1IiAW2DtA',
+    token: 'SmRy35alwQU-WLIXXdKW4bb_YnenAirA',
+    token_secret: 'cbLkNTBIuSCd-cgt1v9LE7I5OPU',
+    });
+    yelp.business(req.params.id)
       .then(function (data) {
         console.log('data: ', data)
         res.send(data)
@@ -61,6 +79,26 @@ app.post('/favourites', (req, res) => {
     .then((data) => { res.send(data); })
     .catch((err) => { res.status(400).send(err); })
   });
+
+app.post('/unfavourites', (req, res) => {
+  console.log('in app.js');
+  console.log(req.body.id)
+  Yelps.unfavourites(req.body.business)
+    .then((data) => { res.send(data); })
+    .catch((err) => { res.status(400).send(err); })
+  });
+
+app.get('/favourites', (req, res) => {
+  console.log('in app.js');
+  Yelps.allFavourites()
+    .then((data) => { res.send(data); })
+    .catch((err) => { res.status(400).send(err); })
+  });
+
+app.use("*", function(request, response) {
+  	//send the index.html
+      response.sendFile(path.join(__dirname, "build/index.html"));
+});
 
 app.listen(PORT, err => {
   console.log( err || `Express listening on port ${8000}`)
